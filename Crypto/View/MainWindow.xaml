@@ -1,0 +1,199 @@
+﻿<Window x:Class="Crypto.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Crypto"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        
+        <local:DivideWidthConverter x:Key="DivideWidthConverter"/>
+        
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
+
+    <!-- Основний контейнер з відступами зліва і справа -->
+    <Grid Margin="10">
+        <!-- Оголошуємо 3 рядки: верхня панель, ListView, нижня панель -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Верхня панель: кнопка Налаштування, поле пошуку та кнопка Калькулятор -->
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <!-- Кнопки будуть Auto, а пошукове поле — розтягуватись -->
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Ліва кнопка "Налаштування" -->
+            
+
+            <!-- Поле пошуку з мінімальною шириною -->
+            <TextBox Grid.Column="1" Name="SearchTextBox" Height="40" 
+                     VerticalAlignment="Center" Width="200"
+                     Style="{StaticResource ModernTextBox}"/>
+
+            <Grid Grid.Column="2" Margin="0, 0, 10, 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="1" Margin="0,0,50,0"
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource RoundedRectangleButton}">
+                    <Image Source="/Images/IconCalculator.png" Width="24" Height="24"/>
+                </Button>
+
+                <Button Grid.Column="1"
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource RoundIconButton}">
+                         <Image Source="/Images/IconSettings.png" Width="24" Height="24"/>
+                </Button>
+            </Grid>
+
+        </Grid>
+
+        <!-- Середня область: ListView з GridView -->
+        <ListView Grid.Row="1"
+                  Style="{StaticResource CryptoListViewStyle}"
+                  ItemContainerStyle="{StaticResource CryptoListViewItemStyle}"
+                  ItemsSource="{Binding CryptoCurrencies}"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Stretch"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+            <ListView.View>
+                <GridView>
+                    <!-- Колонка: Назва монети -->
+                    <GridViewColumn Header="Монета">
+                        <GridViewColumn.Width>
+                            <Binding RelativeSource="{RelativeSource AncestorType=ListView}"
+                                     Path="ActualWidth"
+                                     Converter="{StaticResource DivideWidthConverter}"
+                                     ConverterParameter="7"/>
+                        </GridViewColumn.Width>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" Margin="2" 
+                                           VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <!-- Колонка: Ціна -->
+                    <GridViewColumn Header="Ціна">
+                        <GridViewColumn.Width>
+                            <Binding RelativeSource="{RelativeSource AncestorType=ListView}"
+                                     Path="ActualWidth"
+                                     Converter="{StaticResource DivideWidthConverter}"
+                                     ConverterParameter="7"/>
+                        </GridViewColumn.Width>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Price, StringFormat={}{0:C}}"
+                                           Margin="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <!-- Колонка: 1 година -->
+                    <GridViewColumn Header="1г">
+                        <GridViewColumn.Width>
+                            <Binding RelativeSource="{RelativeSource AncestorType=ListView}"
+                                     Path="ActualWidth"
+                                     Converter="{StaticResource DivideWidthConverter}"
+                                     ConverterParameter="7"/>
+                        </GridViewColumn.Width>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Change1H, StringFormat={}{0:P}}"
+                                           Margin="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <!-- Колонка: 24 години -->
+                    <GridViewColumn Header="24г">
+                        <GridViewColumn.Width>
+                            <Binding RelativeSource="{RelativeSource AncestorType=ListView}"
+                                     Path="ActualWidth"
+                                     Converter="{StaticResource DivideWidthConverter}"
+                                     ConverterParameter="7"/>
+                        </GridViewColumn.Width>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Change24H, StringFormat={}{0:P}}"
+                                           Margin="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <!-- Колонка: 7 днів -->
+                    <GridViewColumn Header="7 днів">
+                        <GridViewColumn.Width>
+                            <Binding RelativeSource="{RelativeSource AncestorType=ListView}"
+                                     Path="ActualWidth"
+                                     Converter="{StaticResource DivideWidthConverter}"
+                                     ConverterParameter="7"/>
+                        </GridViewColumn.Width>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Change7D, StringFormat={}{0:P}}"
+                                           Margin="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <!-- Колонка: Обсяг (24 години) -->
+                    <GridViewColumn Header="Обсяг">
+                        <GridViewColumn.Width>
+                            <Binding RelativeSource="{RelativeSource AncestorType=ListView}"
+                                     Path="ActualWidth"
+                                     Converter="{StaticResource DivideWidthConverter}"
+                                     ConverterParameter="7"/>
+                        </GridViewColumn.Width>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Volume24H}"
+                                           Margin="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <!-- Колонка: Ринкова капіталізація -->
+                    <GridViewColumn Header="Ринкова кап.">
+                        <GridViewColumn.Width>
+                            <Binding RelativeSource="{RelativeSource AncestorType=ListView}"
+                                     Path="ActualWidth"
+                                     Converter="{StaticResource DivideWidthConverter}"
+                                     ConverterParameter="7"/>
+                        </GridViewColumn.Width>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding MarketCap}"
+                                           Margin="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- Нижня панель: кнопки Back та Next (розташовані в окремому рядку) -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+            <Button Content="Назад" Width="100" Height="30" Margin="0,0,10,0" Style="{StaticResource PaginationButton}"/>
+            <Button Content="Вперед" Width="100" Height="30" Style="{StaticResource PaginationButton}"/>
+        </StackPanel>
+    </Grid>
+</Window>
