@@ -65,135 +65,90 @@
         </Grid>
 
         <!-- Середня область: ListView з GridView -->
-        <ListView Grid.Row="1"
-                  Style="{StaticResource CryptoListViewStyle}"
-                  ItemContainerStyle="{StaticResource CryptoListViewItemStyle}"
-                  ItemsSource="{Binding CryptoCurrencies}"
-                  HorizontalAlignment="Stretch"
-                  HorizontalContentAlignment="Stretch"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <ListView
+            Grid.Row="1"
+            Style="{StaticResource CryptoListViewStyle}"
+            ItemContainerStyle="{StaticResource CryptoListViewItemStyle}"
+            ItemsSource="{Binding coins}"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
             <ListView.View>
                 <GridView>
+
                     <!-- Колонка: Назва монети -->
-                    <GridViewColumn Header="Монета">
-                        <GridViewColumn.Width>
-                            <Binding RelativeSource="{RelativeSource AncestorType=ListView}"
-                                     Path="ActualWidth"
-                                     Converter="{StaticResource DivideWidthConverter}"
-                                     ConverterParameter="7"/>
-                        </GridViewColumn.Width>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name}" Margin="2" 
-                                           VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <GridViewColumn
+                        Header="Монета"
+                        DisplayMemberBinding="{Binding name}"
+                        Width="{Binding RelativeSource={RelativeSource AncestorType=ListView},
+                                        Path=ActualWidth,
+                                        Converter={StaticResource DivideWidthConverter},
+                                        ConverterParameter=7}" />
 
                     <!-- Колонка: Ціна -->
-                    <GridViewColumn Header="Ціна">
-                        <GridViewColumn.Width>
-                            <Binding RelativeSource="{RelativeSource AncestorType=ListView}"
-                                     Path="ActualWidth"
-                                     Converter="{StaticResource DivideWidthConverter}"
-                                     ConverterParameter="7"/>
-                        </GridViewColumn.Width>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Price, StringFormat={}{0:C}}"
-                                           Margin="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <GridViewColumn
+                        Header="Ціна"
+                        DisplayMemberBinding="{Binding current_price, StringFormat={}{0:C}}"
+                        Width="{Binding RelativeSource={RelativeSource AncestorType=ListView},
+                                        Path=ActualWidth,
+                                        Converter={StaticResource DivideWidthConverter},
+                                        ConverterParameter=7}" />
 
                     <!-- Колонка: 1 година -->
-                    <GridViewColumn Header="1г">
-                        <GridViewColumn.Width>
-                            <Binding RelativeSource="{RelativeSource AncestorType=ListView}"
-                                     Path="ActualWidth"
-                                     Converter="{StaticResource DivideWidthConverter}"
-                                     ConverterParameter="7"/>
-                        </GridViewColumn.Width>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Change1H, StringFormat={}{0:P}}"
-                                           Margin="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <GridViewColumn
+                        Header="1г"
+                        DisplayMemberBinding="{Binding price_change_percentage_1h_in_currency, StringFormat={}{0:P}}"
+                        Width="{Binding RelativeSource={RelativeSource AncestorType=ListView},
+                                        Path=ActualWidth,
+                                        Converter={StaticResource DivideWidthConverter},
+                                        ConverterParameter=7}" />
 
                     <!-- Колонка: 24 години -->
-                    <GridViewColumn Header="24г">
-                        <GridViewColumn.Width>
-                            <Binding RelativeSource="{RelativeSource AncestorType=ListView}"
-                                     Path="ActualWidth"
-                                     Converter="{StaticResource DivideWidthConverter}"
-                                     ConverterParameter="7"/>
-                        </GridViewColumn.Width>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Change24H, StringFormat={}{0:P}}"
-                                           Margin="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <GridViewColumn
+                        Header="24г"
+                        DisplayMemberBinding="{Binding price_change_percentage_24h_in_currency, StringFormat={}{0:P}}"
+                        Width="{Binding RelativeSource={RelativeSource AncestorType=ListView},
+                                        Path=ActualWidth,
+                                        Converter={StaticResource DivideWidthConverter},
+                                        ConverterParameter=7}" />
 
                     <!-- Колонка: 7 днів -->
-                    <GridViewColumn Header="7 днів">
-                        <GridViewColumn.Width>
-                            <Binding RelativeSource="{RelativeSource AncestorType=ListView}"
-                                     Path="ActualWidth"
-                                     Converter="{StaticResource DivideWidthConverter}"
-                                     ConverterParameter="7"/>
-                        </GridViewColumn.Width>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Change7D, StringFormat={}{0:P}}"
-                                           Margin="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <GridViewColumn
+                        Header="7 днів"
+                        DisplayMemberBinding="{Binding price_change_percentage_7d_in_currency, StringFormat={}{0:P}}"
+                        Width="{Binding RelativeSource={RelativeSource AncestorType=ListView},
+                                        Path=ActualWidth,
+                                        Converter={StaticResource DivideWidthConverter},
+                                        ConverterParameter=7}" />
 
-                    <!-- Колонка: Обсяг (24 години) -->
-                    <GridViewColumn Header="Обсяг">
-                        <GridViewColumn.Width>
-                            <Binding RelativeSource="{RelativeSource AncestorType=ListView}"
-                                     Path="ActualWidth"
-                                     Converter="{StaticResource DivideWidthConverter}"
-                                     ConverterParameter="7"/>
-                        </GridViewColumn.Width>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Volume24H}"
-                                           Margin="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <!-- Колонка: Обсяг -->
+                    <GridViewColumn
+                        Header="Обсяг"
+                        DisplayMemberBinding="{Binding total_volume, StringFormat={}{0:N0}}"
+                        Width="{Binding RelativeSource={RelativeSource AncestorType=ListView},
+                                        Path=ActualWidth,
+                                        Converter={StaticResource DivideWidthConverter},
+                                        ConverterParameter=7}" />
 
                     <!-- Колонка: Ринкова капіталізація -->
-                    <GridViewColumn Header="Ринкова кап.">
-                        <GridViewColumn.Width>
-                            <Binding RelativeSource="{RelativeSource AncestorType=ListView}"
-                                     Path="ActualWidth"
-                                     Converter="{StaticResource DivideWidthConverter}"
-                                     ConverterParameter="7"/>
-                        </GridViewColumn.Width>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding MarketCap}"
-                                           Margin="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <GridViewColumn
+                        Header="Ринкова кап."
+                        DisplayMemberBinding="{Binding market_cap, StringFormat={}{0:C0}}"
+                        Width="{Binding RelativeSource={RelativeSource AncestorType=ListView},
+                                        Path=ActualWidth,
+                                        Converter={StaticResource DivideWidthConverter},
+                                        ConverterParameter=7}" />
+
                 </GridView>
             </ListView.View>
         </ListView>
 
+
         <!-- Нижня панель: кнопки Back та Next (розташовані в окремому рядку) -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-            <Button Content="Назад" Width="100" Height="30" Margin="0,0,10,0" Style="{StaticResource PaginationButton}"/>
-            <Button Content="Вперед" Width="100" Height="30" Style="{StaticResource PaginationButton}"/>
+            <Button Content="Назад" Command = "{Binding BackPage}" Width="100" Height="30" Margin="0,0,10,0" Style="{StaticResource PaginationButton}"/>
+            <Button Content="Вперед" Command="{Binding NextPage}" Width="100" Height="30" Style="{StaticResource PaginationButton}"/>
         </StackPanel>
     </Grid>
 </Window>

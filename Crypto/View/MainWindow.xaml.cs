@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Crypto.ViewModal;
 
 namespace Crypto.View
 {
@@ -21,6 +22,8 @@ namespace Crypto.View
         public MainWindow()
         {
             InitializeComponent();
+            MainViewModal mainViewModal = new MainViewModal();
+            this.DataContext = mainViewModal;
         }
 
     }
