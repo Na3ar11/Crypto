@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,34 +23,53 @@ namespace Crypto.ViewModal
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private HttpCoinList httpCoinList;
+        private IApiSevice coinApiService;
 
+        private int currentPage;
         public ObservableCollection<Coin> coins { get; set; }
 
-        public ICommand NextPage { get; set; }
+        private string searchText;
+        public string SearchText
+        {
+            get { return searchText; }
+            set
+            {
+                searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+            }
+        }
+        public ICommand NextPage { get; }
 
-        public ICommand BackPage { get; set; }
+        public ICommand BackPage { get; }
+
+        public ICommand SearchCommand { get;}
 
         public MainViewModal()
         {
-            httpCoinList = new HttpCoinList();
+            coinApiService = new CoinApiService();
             coins = new ObservableCollection<Coin>();
 
             NextPage = new RelayCommand(Next, Can);
             BackPage = new RelayCommand(Back, Can);
+            SearchCommand = new RelayCommand(Search, Can);
+
+            currentPage = 1;
 
             LoadPage();
         }
 
         private async void LoadPage()
         {
-            List<Coin> list = await httpCoinList.GetPage();
+            IEnumerable<Coin> list = await coinApiService.GetPage(currentPage);
 
-            foreach(var item in list)
+            coins.Clear();
+
+            foreach (var item in list)
             {
                 coins.Add(item);
             }
         }
+
 
         private bool Can(object obj)
         {
@@ -58,18 +78,36 @@ namespace Crypto.ViewModal
 
         private void Next(object obj)
         {
-            httpCoinList.MoveNext();
-            coins.Clear();
+            currentPage++;
             LoadPage();
         }
 
         private void Back(object obj)
         {
-            httpCoinList.MoveBack();
-            coins.Clear();
+            if (currentPage > 1)
+                currentPage--;
             LoadPage();
         }
 
+        private async void Search(object parameter)
+        {
+            var query = SearchText ?? string.Empty;
+            if (query == "")
+            {
+                LoadPage();
+            }
+            else
+            {
+                coins.Clear();
+                IEnumerable<Coin> list = await coinApiService.SearchCoin(query);
+                if (list == null)
+                    return;
+                foreach (var coin in list)
+                {
+                    coins.Add(coin);
+                }
+            }
+        }
 
     }
 }

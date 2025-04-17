@@ -39,7 +39,14 @@
             <!-- Поле пошуку з мінімальною шириною -->
             <TextBox Grid.Column="1" Name="SearchTextBox" Height="40" 
                      VerticalAlignment="Center" Width="200"
-                     Style="{StaticResource ModernTextBox}"/>
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource ModernTextBox}">
+                <TextBox.InputBindings>
+                    <KeyBinding
+                        Key="Enter"
+                    Command="{Binding SearchCommand}" />
+                </TextBox.InputBindings>
+            </TextBox>
 
             <Grid Grid.Column="2" Margin="0, 0, 10, 0">
                 <Grid.ColumnDefinitions>
@@ -143,7 +150,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
-
 
         <!-- Нижня панель: кнопки Back та Next (розташовані в окремому рядку) -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
