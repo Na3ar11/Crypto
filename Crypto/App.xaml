@@ -1,17 +1,28 @@
 ﻿<Application x:Class="Crypto.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Crypto"
-             StartupUri="View/MainWindow.xaml">
+             xmlns:vm="clr-namespace:Crypto.ViewModal"
+             xmlns:v="clr-namespace:Crypto.View"
+             xmlns:local="clr-namespace:Crypto">
     <Application.Resources>
         <ResourceDictionary>
+           
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Theme/TextBoxTheme.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="Theme/ButtonSettingsTheme.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="Theme/ButtonCalculatorTheme.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="Theme/ListViewTheme.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="Theme/ButtonPagination.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Theme/TextBoxTheme.xaml"/>
+                <ResourceDictionary Source="Theme/ButtonSettingsTheme.xaml"/>
+                <ResourceDictionary Source="Theme/ButtonCalculatorTheme.xaml"/>
+                <ResourceDictionary Source="Theme/ListViewTheme.xaml"/>
+                <ResourceDictionary Source="Theme/ButtonPagination.xaml"/>
+                <ResourceDictionary Source="Theme/ComboBoxTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+
+            <DataTemplate DataType="{x:Type vm:CalculatorViewModal}">
+                <v:CalculatorWindow />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:MainViewModal}">
+                <v:MainWindow />
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

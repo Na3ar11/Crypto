@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Input;
 using Crypto.Commands;
 using Crypto.Modal;
+using Crypto.View;
 
 namespace Crypto.ViewModal
 {
@@ -22,6 +23,8 @@ namespace Crypto.ViewModal
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private IWindowService _windowService;
 
         private IApiSevice coinApiService;
 
@@ -42,16 +45,24 @@ namespace Crypto.ViewModal
 
         public ICommand BackPage { get; }
 
-        public ICommand SearchCommand { get;}
+        public ICommand SearchCommand { get; }
 
-        public MainViewModal()
+        public ICommand ShowSettingsCommand { get; }
+
+        public ICommand ShowCalculatorCommand {  get; } 
+
+        public MainViewModal(IWindowService windowService)
         {
             coinApiService = new CoinApiService();
             coins = new ObservableCollection<Coin>();
 
+            _windowService = windowService;
+
             NextPage = new RelayCommand(Next, Can);
             BackPage = new RelayCommand(Back, Can);
             SearchCommand = new RelayCommand(Search, Can);
+            ShowSettingsCommand = new RelayCommand(ShowSettings, Can);
+            ShowCalculatorCommand = new RelayCommand(ShowCalculator, Can);
 
             currentPage = 1;
 
@@ -87,6 +98,23 @@ namespace Crypto.ViewModal
             if (currentPage > 1)
                 currentPage--;
             LoadPage();
+        }
+
+        private void ShowSettings(object obj)
+        {
+            var mainWindow = obj as Window;
+
+            SettingsWindow settingsWin = new SettingsWindow();
+            settingsWin.Owner = mainWindow;
+            settingsWin.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            settingsWin.Show();
+        }
+
+        private void ShowCalculator (object obj)
+        {
+            var calculatorWindow = new CalculatorViewModal();
+
+            bool? result = _windowService.ShowDialog(calculatorWindow);
         }
 
         private async void Search(object parameter)

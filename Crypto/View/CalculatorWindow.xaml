@@ -1,0 +1,60 @@
+﻿<Window x:Class="Crypto.View.CalculatorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Crypto.View"
+        xmlns:vm="clr-namespace:Crypto.ViewModal"
+        mc:Ignorable="d"
+        Title="CalculatorWindow" Height="300" Width="500">
+    <Window.Resources>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0"  HorizontalAlignment="Center" FontSize="18" Margin="10">Calculator</TextBlock>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,0">
+            <TextBlock VerticalAlignment= "Center" Margin="10" Text="{Binding FirstCoin}"/>
+            <Button Margin="0,0,50,0"
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource RoundedRectangleButton}">
+                <Image Source="/Images/IconChange.png" Width="24" Height="24"/>
+            </Button>
+        </StackPanel>
+        <TextBox Grid.Row="1" Name="FirstBox" Height="40"
+         HorizontalAlignment="Right" Width="150"
+         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+         Style="{StaticResource CoinBox}"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,0">
+            <TextBlock VerticalAlignment= "Center" Margin="10"  Text="{Binding SecondCoin}"></TextBlock>
+            <Button Margin="0,0,50,0"
+             VerticalAlignment="Center" 
+             HorizontalAlignment="Right"
+             Style="{StaticResource RoundedRectangleButton}">
+                <Image Source="/Images/IconChange.png" Width="24" Height="24"/>
+            </Button>
+        </StackPanel>
+        <TextBox Grid.Row="2" Name="SecondBox" Height="40"
+                HorizontalAlignment="Right" Width="150"
+                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource CoinBox}"/>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,0">
+            <TextBlock VerticalAlignment= "Center" Margin="10" Text="{Binding ThirdCoin}"> </TextBlock>
+            <Button Margin="0,0,50,0"
+             VerticalAlignment="Center" 
+             HorizontalAlignment="Right"
+             Style="{StaticResource RoundedRectangleButton}">
+                <Image Source="/Images/IconChange.png" Width="24" Height="24"/>
+            </Button>
+        </StackPanel>
+        <TextBox Grid.Row="3" Name="ThirdBox" Height="40"
+                 HorizontalAlignment="Right" Width="150"
+                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                 Style="{StaticResource CoinBox}"/>
+    </Grid>
+</Window>

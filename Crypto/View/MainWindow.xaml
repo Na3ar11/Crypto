@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Crypto"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Name="mainwindow">
     <Window.Resources>
         
         <local:DivideWidthConverter x:Key="DivideWidthConverter"/>
@@ -15,28 +16,25 @@
         </Style>
     </Window.Resources>
 
-    <!-- Основний контейнер з відступами зліва і справа -->
+   
     <Grid Margin="10">
-        <!-- Оголошуємо 3 рядки: верхня панель, ListView, нижня панель -->
+       
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Верхня панель: кнопка Налаштування, поле пошуку та кнопка Калькулятор -->
+        
         <Grid Grid.Row="0" Margin="0,0,0,10">
             <Grid.ColumnDefinitions>
-                <!-- Кнопки будуть Auto, а пошукове поле — розтягуватись -->
+              
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Ліва кнопка "Налаштування" -->
-            
-
-            <!-- Поле пошуку з мінімальною шириною -->
+           
             <TextBox Grid.Column="1" Name="SearchTextBox" Height="40" 
                      VerticalAlignment="Center" Width="200"
                      Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
@@ -57,6 +55,7 @@
                 <Button Grid.Column="1" Margin="0,0,50,0"
                         VerticalAlignment="Center" 
                         HorizontalAlignment="Right"
+                        Command="{Binding ShowCalculatorCommand}"
                         Style="{StaticResource RoundedRectangleButton}">
                     <Image Source="/Images/IconCalculator.png" Width="24" Height="24"/>
                 </Button>
@@ -64,6 +63,8 @@
                 <Button Grid.Column="1"
                         VerticalAlignment="Center" 
                         HorizontalAlignment="Right"
+                        CommandParameter="{x:Reference Name= mainwindow}"
+                        Command="{Binding ShowSettingsCommand}"
                         Style="{StaticResource RoundIconButton}">
                          <Image Source="/Images/IconSettings.png" Width="24" Height="24"/>
                 </Button>
@@ -71,7 +72,7 @@
 
         </Grid>
 
-        <!-- Середня область: ListView з GridView -->
+        
         <ListView
             Grid.Row="1"
             Style="{StaticResource CryptoListViewStyle}"

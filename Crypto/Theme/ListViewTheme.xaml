@@ -15,10 +15,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="GridViewColumnHeader">
                     <Border Background="{TemplateBinding Background}"
-                  BorderBrush="{TemplateBinding BorderBrush}"
-                  BorderThickness="{TemplateBinding BorderThickness}"
-                  Padding="{TemplateBinding Padding}"
-                  CornerRadius="5">
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            CornerRadius="5">
                         <ContentPresenter HorizontalAlignment="Center"
                               VerticalAlignment="Center"/>
                     </Border>
@@ -40,9 +40,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ListView">
                     <Border Background="{TemplateBinding Background}"
-                  BorderBrush="{TemplateBinding BorderBrush}"
-                  BorderThickness="{TemplateBinding BorderThickness}"
-                  SnapsToDevicePixels="True">
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="True"
+                            CornerRadius="5">
                         <ScrollViewer Focusable="False">
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -69,6 +70,7 @@
     <!-- Стиль для кожного ListViewItem з GridViewRowPresenter -->
     <Style x:Key="CryptoListViewItemStyle" TargetType="ListViewItem">
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="#000000"/>
         <Setter Property="Padding" Value="4"/>
         <Setter Property="Margin" Value="2"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -77,26 +79,28 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ListViewItem">
                     <Border x:Name="Bd"
-                  Background="{TemplateBinding Background}"
-                  BorderBrush="{TemplateBinding BorderBrush}"
-                  BorderThickness="{TemplateBinding BorderThickness}"
-                  SnapsToDevicePixels="True">
+                        Padding="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        SnapsToDevicePixels="True"
+                        CornerRadius="5">
 
                         <!-- Тут тільки те, що підтримує GridViewRowPresenter -->
                         <GridViewRowPresenter
-                Columns="{Binding View.Columns, RelativeSource={RelativeSource AncestorType=ListView}}"
-                Content="{TemplateBinding Content}"
-                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            Columns="{Binding View.Columns, RelativeSource={RelativeSource AncestorType=ListView}}"
+                            Content="{TemplateBinding Content}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Border>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="#FFDCE6F1"/>
+                            <Setter TargetName="Bd" Property="Background" Value="#d1d1d1"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="#FFBEE6FD"/>
+                            <Setter TargetName="Bd" Property="Background" Value="#b3b3b3"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Bd" Property="Opacity" Value="0.5"/>
