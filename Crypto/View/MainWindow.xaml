@@ -78,10 +78,17 @@
             Style="{StaticResource CryptoListViewStyle}"
             ItemContainerStyle="{StaticResource CryptoListViewItemStyle}"
             ItemsSource="{Binding coins}"
+            SelectedItem="{Binding SelectedCoin, Mode=TwoWay}"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
+            <ListView.InputBindings>
+                <MouseBinding
+                    MouseAction="LeftClick"
+                    Command="{Binding CoinSelectedCommand}"
+                    CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=ListView}}" />
+            </ListView.InputBindings>
             <ListView.View>
                 <GridView>
 

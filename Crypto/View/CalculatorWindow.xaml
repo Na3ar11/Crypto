@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Crypto.View"
         xmlns:vm="clr-namespace:Crypto.ViewModal"
+        xmlns:m="clr-namespace:Crypto.Modal"
         mc:Ignorable="d"
         Title="CalculatorWindow" Height="300" Width="500">
     <Window.Resources>
+        <m:ScientificNotationConverter x:Key="SciConverter" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -22,39 +24,42 @@
             <Button Margin="0,0,50,0"
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Right"
+                    Command = "{Binding FirstButton}"
                     Style="{StaticResource RoundedRectangleButton}">
                 <Image Source="/Images/IconChange.png" Width="24" Height="24"/>
             </Button>
         </StackPanel>
         <TextBox Grid.Row="1" Name="FirstBox" Height="40"
          HorizontalAlignment="Right" Width="150"
-         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+         Text="{Binding FirstBox, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SciConverter}}"
          Style="{StaticResource CoinBox}"/>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,0">
             <TextBlock VerticalAlignment= "Center" Margin="10"  Text="{Binding SecondCoin}"></TextBlock>
             <Button Margin="0,0,50,0"
              VerticalAlignment="Center" 
              HorizontalAlignment="Right"
+             Command="{Binding SecondButton}"
              Style="{StaticResource RoundedRectangleButton}">
                 <Image Source="/Images/IconChange.png" Width="24" Height="24"/>
             </Button>
         </StackPanel>
         <TextBox Grid.Row="2" Name="SecondBox" Height="40"
                 HorizontalAlignment="Right" Width="150"
-                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding SecondBox, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SciConverter}}"
                 Style="{StaticResource CoinBox}"/>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,0">
             <TextBlock VerticalAlignment= "Center" Margin="10" Text="{Binding ThirdCoin}"> </TextBlock>
             <Button Margin="0,0,50,0"
              VerticalAlignment="Center" 
              HorizontalAlignment="Right"
+             Command="{Binding ThirdButton}"   
              Style="{StaticResource RoundedRectangleButton}">
                 <Image Source="/Images/IconChange.png" Width="24" Height="24"/>
             </Button>
         </StackPanel>
         <TextBox Grid.Row="3" Name="ThirdBox" Height="40"
                  HorizontalAlignment="Right" Width="150"
-                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding ThirdBox, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SciConverter}}"
                  Style="{StaticResource CoinBox}"/>
     </Grid>
 </Window>

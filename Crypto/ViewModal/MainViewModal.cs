@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection.Metadata;
@@ -29,6 +30,10 @@ namespace Crypto.ViewModal
         private IApiSevice coinApiService;
 
         private int currentPage;
+
+        private Coin[] CoinsForCalculator;
+
+        private int numberOfCoin = 0;
         public ObservableCollection<Coin> coins { get; set; }
 
         private string searchText;
@@ -41,6 +46,20 @@ namespace Crypto.ViewModal
                 OnPropertyChanged(nameof(SearchText));
             }
         }
+
+        private Coin _selectedCoin;
+
+        public Coin SelectedCoin
+        {
+            get => _selectedCoin;
+            set
+            {
+                if (_selectedCoin == value) return;
+                _selectedCoin = value;
+                if (value != null)
+                    CoinSelectedCommand.Execute(value);
+            }
+        }
         public ICommand NextPage { get; }
 
         public ICommand BackPage { get; }
@@ -49,7 +68,9 @@ namespace Crypto.ViewModal
 
         public ICommand ShowSettingsCommand { get; }
 
-        public ICommand ShowCalculatorCommand {  get; } 
+        public ICommand ShowCalculatorCommand { get; }
+
+        public ICommand CoinSelectedCommand { get; }
 
         public MainViewModal(IWindowService windowService)
         {
@@ -63,6 +84,8 @@ namespace Crypto.ViewModal
             SearchCommand = new RelayCommand(Search, Can);
             ShowSettingsCommand = new RelayCommand(ShowSettings, Can);
             ShowCalculatorCommand = new RelayCommand(ShowCalculator, Can);
+            CoinSelectedCommand = new RelayCommand(ExecuteCoinSelected, Can);
+
 
             currentPage = 1;
 
@@ -79,7 +102,10 @@ namespace Crypto.ViewModal
             {
                 coins.Add(item);
             }
+
+            CoinsForCalculator = new Coin[] { coins[0], coins[1], coins[2] };
         }
+
 
 
         private bool Can(object obj)
@@ -110,11 +136,31 @@ namespace Crypto.ViewModal
             settingsWin.Show();
         }
 
-        private void ShowCalculator (object obj)
+        private void ShowCalculator(object obj)
         {
-            var calculatorWindow = new CalculatorViewModal();
+            var calculatorWindow = new CalculatorViewModal(CoinsForCalculator);
 
             bool? result = _windowService.ShowDialog(calculatorWindow);
+
+            if (result == true)
+            {
+                if (!calculatorWindow.first)
+                {
+                    numberOfCoin = 1;
+                }
+                else if (!calculatorWindow.second)
+                {
+                    numberOfCoin = 2;
+                }
+                else if (!calculatorWindow.third)
+                {
+                    numberOfCoin = 3;
+                }
+                else
+                {
+                    numberOfCoin = 0;
+                }
+            }
         }
 
         private async void Search(object parameter)
@@ -137,5 +183,16 @@ namespace Crypto.ViewModal
             }
         }
 
+        private void ExecuteCoinSelected(object parameter)
+        {
+            if (parameter is Coin coin)
+            {
+                if(numberOfCoin != 0)
+                {
+                    CoinsForCalculator[numberOfCoin - 1] = coin;
+                    ShowCalculator(null);
+                }
+            }
+        }
     }
 }
