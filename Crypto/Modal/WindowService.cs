@@ -21,6 +21,7 @@ namespace Crypto.Modal
             {
                 MainViewModal => _sp.GetRequiredService<MainWindow>(),
                 CalculatorViewModal => _sp.GetRequiredService<CalculatorWindow>(),
+                MarketInfoViewModal => _sp.GetRequiredService<MarketInfoWindow>(),
                 _ => throw new InvalidOperationException($"Не знаю, яке вікно для {typeof(TViewModel).Name}")
             };
 

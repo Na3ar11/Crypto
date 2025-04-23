@@ -30,6 +30,8 @@ namespace Crypto
             services.AddTransient<MainWindow>();
             services.AddTransient<CalculatorViewModal>();
             services.AddTransient<CalculatorWindow>();
+            services.AddTransient<MarketInfoViewModal>();
+            services.AddTransient<MarketInfoWindow>();
 
 
             _serviceProvider = services.BuildServiceProvider();

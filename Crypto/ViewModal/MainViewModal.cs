@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -57,7 +59,10 @@ namespace Crypto.ViewModal
                 if (_selectedCoin == value) return;
                 _selectedCoin = value;
                 if (value != null)
+                {
+                    ShowMarketInfoCommand.Execute(value);
                     CoinSelectedCommand.Execute(value);
+                }
             }
         }
         public ICommand NextPage { get; }
@@ -72,20 +77,21 @@ namespace Crypto.ViewModal
 
         public ICommand CoinSelectedCommand { get; }
 
+        public ICommand ShowMarketInfoCommand { get; }
+
         public MainViewModal(IWindowService windowService)
         {
             coinApiService = new CoinApiService();
             coins = new ObservableCollection<Coin>();
 
             _windowService = windowService;
-
             NextPage = new RelayCommand(Next, Can);
             BackPage = new RelayCommand(Back, Can);
             SearchCommand = new RelayCommand(Search, Can);
             ShowSettingsCommand = new RelayCommand(ShowSettings, Can);
             ShowCalculatorCommand = new RelayCommand(ShowCalculator, Can);
             CoinSelectedCommand = new RelayCommand(ExecuteCoinSelected, Can);
-
+            ShowMarketInfoCommand = new RelayCommand(ShowMarketInfo, Can);
 
             currentPage = 1;
 
@@ -163,6 +169,15 @@ namespace Crypto.ViewModal
             }
         }
 
+        private void ShowMarketInfo(object parameter)
+        {
+            if (parameter is Coin coin && numberOfCoin == 0)
+            {
+                var MarketWindow = new MarketInfoViewModal(coin.id, coin.name);
+                _windowService.ShowDialog(MarketWindow);
+            }
+        }
+
         private async void Search(object parameter)
         {
             var query = SearchText ?? string.Empty;
@@ -190,6 +205,7 @@ namespace Crypto.ViewModal
                 if(numberOfCoin != 0)
                 {
                     CoinsForCalculator[numberOfCoin - 1] = coin;
+                    numberOfCoin = 0;
                     ShowCalculator(null);
                 }
             }

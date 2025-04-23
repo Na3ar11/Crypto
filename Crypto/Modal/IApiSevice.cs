@@ -11,5 +11,7 @@ namespace Crypto.Modal
         Task<IEnumerable<Coin>> GetPage(int pageNumber);
 
         Task<IEnumerable<Coin>> SearchCoin(string name);
+
+        Task<IEnumerable<MarketInfo>> GetCoinMarketsAsync(string coinId);
     }
 }

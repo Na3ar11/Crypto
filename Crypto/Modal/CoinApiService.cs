@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.DirectoryServices;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -103,6 +104,45 @@ namespace Crypto.Modal
                 resp.EnsureSuccessStatusCode();
                 var body = await resp.Content.ReadAsStringAsync();
                 list = JsonSerializer.Deserialize<IEnumerable<Coin>>(body, option);
+            }
+
+            return list;
+        }
+        public async Task<IEnumerable<MarketInfo>> GetCoinMarketsAsync(string coinId)
+        {
+
+            var marketReq = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri($"https://api.coingecko.com/api/v3/coins/{coinId}/tickers?include_exchange_logo=false&page=1"),
+                Headers =
+                {
+                    { "accept", "application/json" },
+                    { "x-cg-demo-api-key", "CG-azvhBCwyzTtfnNCiyZjh5iAN" },
+                },
+            };
+
+
+            using var response = await client.SendAsync(marketReq);
+            response.EnsureSuccessStatusCode();
+
+            
+            var json = await response.Content.ReadAsStringAsync();
+            using var doc = JsonDocument.Parse(json);
+
+            var tickers = doc.RootElement.GetProperty("tickers");
+            var list = new List<MarketInfo>();
+
+            foreach (var t in tickers.EnumerateArray())
+            {
+                var marketEl = t.GetProperty("market");
+                list.Add(new MarketInfo
+                {
+                    NameShop = marketEl.GetProperty("name").GetString() ?? "–",
+                    ShopUrl = t.GetProperty("trade_url").GetString() ?? "",
+                    Pair = $"{t.GetProperty("base").GetString()}/{t.GetProperty("target").GetString()}",
+                    Price = t.GetProperty("last").GetDecimal(),                    
+                });
             }
 
             return list;
